@@ -1,0 +1,214 @@
+/* --- 1. Google Fonts Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* --- THEME COLORS (Professional Purple) --- */
+    --primary: #9B1AA0;      
+    --primary-dark: #6F0A78; 
+    
+    /* Background Gradient */
+    --bg-gradient: linear-gradient(135deg, #9B1AA0, #8A0F8A, #6F0A78);
+    
+    --text-dark: #2d3436;
+    --text-light: #636e72;
+    --white: #ffffff;
+    
+    /* Glass Effect Variables */
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.3);
+    --border: 1px solid rgba(255, 255, 255, 0.4);
+    
+    --radius: 20px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --- 2. Body Layout --- */
+body {
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- 3. Glass Container --- */
+.container {
+    background: var(--glass-bg);
+    padding: 40px 35px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: var(--border);
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 4. Stylish Heading --- */
+h2 { 
+    text-align: center; 
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 35px;
+    
+    /* Gradient Text Effect */
+    background: linear-gradient(to right, #9B1AA0, #4a148c);
+    -webkit-background-clip: text;
+    background-clip: text; /* Standard property added */
+    -webkit-text-fill-color: transparent;
+    
+    position: relative;
+}
+
+/* Underline Decoration */
+h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 5px;
+    background: linear-gradient(to right, #9B1AA0, #8A0F8A);
+    margin: 10px auto 0;
+    border-radius: 10px;
+}
+
+/* --- 5. Form Elements --- */
+.form-group { 
+    margin-bottom: 20px; 
+}
+
+label { 
+    display: block; 
+    margin-bottom: 8px; 
+    color: var(--text-dark); 
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-left: 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px 15px;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: var(--transition);
+    background: #fdfdfd;
+    color: var(--text-dark);
+}
+
+/* Input Focus Effect */
+input:focus, select:focus {
+    border-color: var(--primary);
+    outline: none;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(155, 26, 160, 0.1);
+}
+
+/* --- 6. Submit Button --- */
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: var(--transition);
+    
+    /* Gradient Button */
+    background: linear-gradient(to right, #9B1AA0, #8A0F8A);
+    color: white;
+    box-shadow: 0 5px 15px rgba(155, 26, 160, 0.3);
+}
+
+button:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(155, 26, 160, 0.4);
+    background: linear-gradient(to right, #8A0F8A, #6F0A78);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled { 
+    background: #ccc; 
+    cursor: not-allowed; 
+    box-shadow: none;
+}
+
+/* --- 7. Hints & Messages --- */
+small {
+    display: block;
+    margin-top: 6px;
+    color: var(--text-light);
+    font-size: 0.8rem;
+    margin-left: 5px;
+    font-weight: 500;
+}
+
+.message {
+    margin-top: 25px;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    text-align: center;
+    display: none;
+    font-weight: 600;
+}
+
+.success { 
+    background-color: rgba(0, 184, 148, 0.1); 
+    color: #009476; 
+    border: 1px solid rgba(0, 184, 148, 0.2);
+}
+
+.error { 
+    background-color: rgba(214, 48, 49, 0.1); 
+    color: #c0392b; 
+    border: 1px solid rgba(214, 48, 49, 0.2);
+}
+
+/* --- 8. Copyright Text --- */
+.copyright {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 12px;
+    color: var(--text-light);
+    font-weight: 500;
+    opacity: 0.7;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding-top: 15px;
+}
+
+/* --- 9. Mobile Responsiveness --- */
+@media (max-width: 480px) {
+    .container {
+        padding: 30px 20px;
+    }
+    h2 {
+        font-size: 22px;
+    }
+    input, select, button {
+        padding: 12px;
+    }
+}

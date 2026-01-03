@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codeline Inquiry Form</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Course Enquiry</h2>
+    
+    <form id="inquiryForm">
+        
+        <div class="form-group">
+            <label>Student Full Name</label>
+            <input type="text" name="name" placeholder="Enter full name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Mobile Number (Primary)</label>
+            <input type="number" name="mobile" placeholder="Calling Number" required>
+        </div>
+
+        <div class="form-group">
+            <label>WhatsApp Number</label>
+            <input type="number" name="whatsapp" placeholder="For PDF Delivery" required>
+            <small>Don't add +91 prefix</small>
+        </div>
+
+        <div class="form-group">
+            <label>Email ID</label>
+            <input type="email" name="email" placeholder="example@gmail.com" required>
+        </div>
+
+        <div class="form-group">
+            <label>City / Area</label>
+            <input type="text" name="city" placeholder="e.g. Nagpur, Wardha" required>
+        </div>
+
+        <div class="form-group">
+            <label>Highest Qualification</label>
+            <select name="qualification" required>
+                <option value="" disabled selected>-- Select Qualification --</option>
+                <option value="10th">10th</option>
+                <option value="12th">12th</option>
+                <option value="Diploma">Diploma</option>
+                <option value="Graduation">Graduation</option>
+                <option value="Pursuing">Pursuing Graduation</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Stream / Background</label>
+            <select name="stream" required>
+                <option value="" disabled selected>-- Select Stream --</option>
+                <option value="Science">Science</option>
+                <option value="Commerce">Commerce</option>
+                <option value="Arts">Arts</option>
+                <option value="IT">IT / CS</option>
+                <option value="Non-IT">Non-IT / Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Passing Year / Current Status</label>
+            <input type="text" name="passingYear" placeholder="e.g. 2024 or Final Year" required>
+        </div>
+
+        <div class="form-group">
+            <label>Interested Course</label>
+            <select name="course" required>
+                <option value="Java">Java Programming</option>
+                <option value="Python">Python Development</option>
+                <option value="FullStack">Full Stack Web Dev</option>
+            </select>
+        </div>
+
+        <button type="submit" id="submitBtn">Get Course PDF</button>
+    </form>
+
+    <div id="statusMsg" class="message"></div>
+    
+    <div class="copyright">
+        &copy; 2026 Codeline.AI | All Rights Reserved
+    </div>
+</div>
+
+<script>
+    // 🔴 UPDATE YOUR NEW DEPLOYMENT URL HERE
+    // (Agar aapne pichla wala URL change nahi kiya hai to wahi chalega)
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyKip_pzGJIZoBCOyO1O-fpNuNAZWiPwYxNOmGr5Y0EJE4HEo9IL7qvzzDcZ_Jx_ixh/exec";
+
+    const form = document.getElementById('inquiryForm');
+    const btn = document.getElementById('submitBtn');
+    const msgBox = document.getElementById('statusMsg');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+        msgBox.style.display = 'none';
+
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => data[key] = value);
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            btn.disabled = false;
+            btn.innerText = "Get Course PDF";
+            
+            if(result.status === "success") {
+                msgBox.innerHTML = "✅ <b>Success!</b> Opening WhatsApp...";
+                msgBox.className = "message success";
+                msgBox.style.display = "block";
+
+                // --- WHATSAPP LOGIC ---
+                const userWhatsapp = "91" + data.whatsapp; 
+                
+                const pdfLink = result.pdfUrl;
+                const courseName = result.courseName;
+                const address = result.address;
+                const mapLink = result.mapLink;
+                const userName = data.name;
+
+                const messageText = `Dear ${userName},
+
+Thank you for visiting *Codeline.AI*.
+
+Here are the details for the *${courseName}* program.
+
+📄 *Download Brochure:* ${pdfLink}
+
+📍 *Visit Institute:*
+${address}
+Google Map: ${mapLink}
+
+Regards, Team Codeline.AI`;
+
+                const encodedText = encodeURIComponent(messageText);
+                const waUrl = `https://wa.me/${userWhatsapp}?text=${encodedText}`;
+                
+                window.open(waUrl, '_blank');
+                form.reset();
+
+            } else {
+                throw new Error(result.message);
+            }
+        })
+        .catch(error => {
+            btn.disabled = false;
+            btn.innerText = "Get Course PDF";
+            msgBox.innerHTML = "❌ Error: " + error.message;
+            msgBox.className = "message error";
+            msgBox.style.display = "block";
+        });
+    });
+</script>
+
+</body>
+</html>
