@@ -1,25 +1,22 @@
-/* --- 1. Google Fonts Import --- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+/* --- 1. Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* --- THEME COLORS (Professional Purple) --- */
-    --primary: #9B1AA0;      
-    --primary-dark: #6F0A78; 
+    /* --- VIBRANT & PROFESSIONAL PALETTE --- */
+    --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); /* Indigo to Violet */
+    --accent-color: #4f46e5;
     
-    /* Background Gradient */
-    --bg-gradient: linear-gradient(135deg, #9B1AA0, #8A0F8A, #6F0A78);
+    --bg-color: #f3f4f6;
+    --card-bg: #ffffff;
+    --text-main: #1f2937;
+    --text-light: #6b7280;
     
-    --text-dark: #2d3436;
-    --text-light: #636e72;
-    --white: #ffffff;
+    /* --- 3D SHADOWS --- */
+    --card-shadow: 0 20px 50px rgba(79, 70, 229, 0.15); /* Colored Shadow */
+    --input-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    --btn-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
     
-    /* Glass Effect Variables */
-    --glass-bg: rgba(255, 255, 255, 0.95);
-    --shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.3);
-    --border: 1px solid rgba(255, 255, 255, 0.4);
-    
-    --radius: 20px;
-    --transition: all 0.3s ease;
+    --radius: 16px;
 }
 
 * {
@@ -29,10 +26,15 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* --- 2. Body Layout --- */
+/* --- 2. Dynamic Background --- */
 body {
-    background: var(--bg-gradient);
+    /* Colorful but Professional Background */
+    background: #f8fafc;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.15) 0px, transparent 50%);
     background-attachment: fixed;
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,175 +42,196 @@ body {
     padding: 20px;
 }
 
-/* --- 3. Glass Container --- */
+/* --- 3. The 3D Floating Card --- */
 .container {
-    background: var(--glass-bg);
-    padding: 40px 35px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    border: var(--border);
+    background: var(--card-bg);
+    padding: 45px 40px;
+    border-radius: 24px;
     width: 100%;
-    max-width: 450px;
-    position: relative;
-    animation: slideIn 0.5s ease-out;
-}
-
-@keyframes slideIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- 4. Stylish Heading --- */
-h2 { 
-    text-align: center; 
-    font-size: 26px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 35px;
+    max-width: 460px;
     
-    /* Gradient Text Effect */
-    background: linear-gradient(to right, #9B1AA0, #4a148c);
-    -webkit-background-clip: text;
-    background-clip: text; /* Standard property added */
-    -webkit-text-fill-color: transparent;
+    /* The "Floating" Effect */
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     
     position: relative;
+    overflow: hidden; /* For the top color bar */
+    animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Underline Decoration */
-h2::after {
+/* Colorful Top Bar Decoration */
+.container::before {
     content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--primary-gradient);
+}
+
+@keyframes popUp {
+    from { opacity: 0; transform: scale(0.95) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* --- 4. Typography (UPDATED HERE) --- */
+h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 20px; /* <--- Gap badhaya hai (5px se 20px kiya) */
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    text-align: center;
     display: block;
-    width: 60px;
-    height: 5px;
-    background: linear-gradient(to right, #9B1AA0, #8A0F8A);
-    margin: 10px auto 0;
-    border-radius: 10px;
+    margin: 0 auto 30px auto;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: rgba(79, 70, 229, 0.08);
+    padding: 6px 16px; /* Padding adjust ki taaki box thoda khula dikhe */
+    border-radius: 50px;
+    width: fit-content;
 }
 
-/* --- 5. Form Elements --- */
-.form-group { 
-    margin-bottom: 20px; 
+/* --- 5. Inputs with Depth --- */
+.form-group {
+    margin-bottom: 20px;
 }
 
-label { 
-    display: block; 
-    margin-bottom: 8px; 
-    color: var(--text-dark); 
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
     font-weight: 600;
     font-size: 0.9rem;
-    margin-left: 5px;
+    margin-left: 4px;
 }
 
 input, select {
     width: 100%;
-    padding: 14px 15px;
-    border: 2px solid #f0f0f0;
+    padding: 14px 16px;
+    border: 2px solid #e5e7eb;
     border-radius: 12px;
-    font-size: 1rem;
-    transition: var(--transition);
-    background: #fdfdfd;
-    color: var(--text-dark);
+    font-size: 0.95rem;
+    color: #1f2937;
+    background: #f9fafb;
+    transition: all 0.2s ease;
 }
 
-/* Input Focus Effect */
+/* Interactive Input States */
+input:hover, select:hover {
+    border-color: #c7d2fe;
+    background: #fff;
+}
+
 input:focus, select:focus {
-    border-color: var(--primary);
     outline: none;
-    background: white;
-    box-shadow: 0 0 0 4px rgba(155, 26, 160, 0.1);
+    border-color: var(--accent-color);
+    background: #fff;
+    /* Soft Glow Shadow */
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    transform: translateY(-1px);
 }
 
-/* --- 6. Submit Button --- */
+/* --- 6. The "Hero" Button --- */
 button {
     width: 100%;
-    padding: 15px;
-    margin-top: 10px;
+    padding: 16px;
+    margin-top: 15px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
-    font-weight: 700;
     font-size: 1rem;
+    font-weight: 700;
     letter-spacing: 0.5px;
-    text-transform: uppercase;
-    transition: var(--transition);
-    
-    /* Gradient Button */
-    background: linear-gradient(to right, #9B1AA0, #8A0F8A);
     color: white;
-    box-shadow: 0 5px 15px rgba(155, 26, 160, 0.3);
+    
+    /* Beautiful Gradient */
+    background: var(--primary-gradient);
+    
+    /* 3D Drop Shadow */
+    box-shadow: var(--btn-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
-button:hover { 
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(155, 26, 160, 0.4);
-    background: linear-gradient(to right, #8A0F8A, #6F0A78);
+button:hover {
+    transform: translateY(-3px); /* Lifts up */
+    box-shadow: 0 15px 30px rgba(124, 58, 237, 0.4); /* Shadow grows */
 }
 
 button:active {
-    transform: scale(0.98);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(124, 58, 237, 0.4);
 }
 
-button:disabled { 
-    background: #ccc; 
-    cursor: not-allowed; 
+button:disabled {
+    background: #d1d5db;
     box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
 }
 
-/* --- 7. Hints & Messages --- */
+/* --- 7. Status Messages --- */
 small {
-    display: block;
-    margin-top: 6px;
     color: var(--text-light);
     font-size: 0.8rem;
-    margin-left: 5px;
-    font-weight: 500;
+    margin-top: 5px;
+    display: block;
+    margin-left: 4px;
 }
 
 .message {
     margin-top: 25px;
     padding: 15px;
     border-radius: 12px;
-    font-size: 0.95rem;
+    font-weight: 600;
     text-align: center;
     display: none;
-    font-weight: 600;
+    animation: fadeIn 0.4s ease;
 }
 
-.success { 
-    background-color: rgba(0, 184, 148, 0.1); 
-    color: #009476; 
-    border: 1px solid rgba(0, 184, 148, 0.2);
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.error { 
-    background-color: rgba(214, 48, 49, 0.1); 
-    color: #c0392b; 
-    border: 1px solid rgba(214, 48, 49, 0.2);
+.success {
+    background-color: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
 }
 
-/* --- 8. Copyright Text --- */
+.error {
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+/* --- 8. Footer --- */
 .copyright {
     text-align: center;
     margin-top: 30px;
     font-size: 12px;
-    color: var(--text-light);
+    color: #9ca3af;
     font-weight: 500;
-    opacity: 0.7;
-    border-top: 1px solid rgba(0,0,0,0.05);
-    padding-top: 15px;
 }
 
-/* --- 9. Mobile Responsiveness --- */
+/* --- Mobile --- */
 @media (max-width: 480px) {
     .container {
         padding: 30px 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     }
-    h2 {
-        font-size: 22px;
-    }
-    input, select, button {
-        padding: 12px;
+    body {
+        background: #fff;
     }
 }

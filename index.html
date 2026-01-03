@@ -3,166 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codeline Inquiry Form</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Codeline.AI - Admission Inquiry</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h2>Course Enquiry</h2>
-    
-    <form id="inquiryForm">
+<div class="main-card">
+    <div class="brand-section">
+        <div class="brand-header">
+            <h1>CODELINE<span style="color:#ffeb3b">.AI</span></h1>
+            <p>Future Ready Tech Education</p>
+        </div>
         
-        <div class="form-group">
-            <label>Student Full Name</label>
-            <input type="text" name="name" placeholder="Enter full name" required>
+        <div class="brand-content">
+            <h2>Unlock Your <br><span class="highlight">Coding Potential</span></h2>
+            <ul class="features-list">
+                <li><i class="fas fa-check-circle"></i> Industry Expert Mentors</li>
+                <li><i class="fas fa-check-circle"></i> 100% Practical Training</li>
+                <li><i class="fas fa-check-circle"></i> Placement Assistance</li>
+            </ul>
         </div>
 
-        <div class="form-group">
-            <label>Mobile Number (Primary)</label>
-            <input type="number" name="mobile" placeholder="Calling Number" required>
+        <div class="brand-footer">
+            &copy; 2026 Codeline.AI | Nagpur
+        </div>
+    </div>
+
+    <div class="form-section">
+        <div class="form-header">
+            <h3>Admission Inquiry</h3>
+            <p>Fill the details below to get the course brochure</p>
         </div>
 
-        <div class="form-group">
-            <label>WhatsApp Number</label>
-            <input type="number" name="whatsapp" placeholder="For PDF Delivery" required>
-            <small>Don't add +91 prefix</small>
-        </div>
+        <form id="inquiryForm">
+            <div class="input-group">
+                <input type="text" name="name" placeholder="Full Student Name" required>
+                <i class="fas fa-user"></i>
+            </div>
 
-        <div class="form-group">
-            <label>Email ID</label>
-            <input type="email" name="email" placeholder="example@gmail.com" required>
-        </div>
+            <div class="input-group">
+                <input type="number" name="whatsapp" placeholder="WhatsApp Number (For PDF)" required>
+                <i class="fab fa-whatsapp"></i>
+            </div>
 
-        <div class="form-group">
-            <label>City / Area</label>
-            <input type="text" name="city" placeholder="e.g. Nagpur, Wardha" required>
-        </div>
+            <div class="input-group">
+                <input type="number" name="mobile" placeholder="Calling Number (Optional)">
+                <i class="fas fa-phone-alt"></i>
+            </div>
 
-        <div class="form-group">
-            <label>Highest Qualification</label>
-            <select name="qualification" required>
-                <option value="" disabled selected>-- Select Qualification --</option>
-                <option value="10th">10th</option>
-                <option value="12th">12th</option>
-                <option value="Diploma">Diploma</option>
-                <option value="Graduation">Graduation</option>
-                <option value="Pursuing">Pursuing Graduation</option>
-            </select>
-        </div>
+            <div class="input-group">
+                <input type="email" name="email" placeholder="Email Address" required>
+                <i class="fas fa-envelope"></i>
+            </div>
 
-        <div class="form-group">
-            <label>Stream / Background</label>
-            <select name="stream" required>
-                <option value="" disabled selected>-- Select Stream --</option>
-                <option value="Science">Science</option>
-                <option value="Commerce">Commerce</option>
-                <option value="Arts">Arts</option>
-                <option value="IT">IT / CS</option>
-                <option value="Non-IT">Non-IT / Other</option>
-            </select>
-        </div>
+            <div style="display: flex; gap: 15px;">
+                <div class="input-group" style="flex: 1;">
+                    <input type="text" name="city" placeholder="City" required>
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <input type="text" name="passingYear" placeholder="Year" required>
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label>Passing Year / Current Status</label>
-            <input type="text" name="passingYear" placeholder="e.g. 2024 or Final Year" required>
-        </div>
+            <div class="input-group">
+                <select name="qualification" required>
+                    <option value="" disabled selected>Select Qualification</option>
+                    <option value="10th">10th</option>
+                    <option value="12th">12th</option>
+                    <option value="Diploma">Diploma</option>
+                    <option value="Graduation">Graduation</option>
+                    <option value="Pursuing">Pursuing Graduation</option>
+                </select>
+                <i class="fas fa-graduation-cap"></i>
+            </div>
 
-        <div class="form-group">
-            <label>Interested Course</label>
-            <select name="course" required>
-                <option value="Java">Java Programming</option>
-                <option value="Python">Python Development</option>
-                <option value="FullStack">Full Stack Web Dev</option>
-            </select>
-        </div>
+            <div class="input-group">
+                <select name="stream" required>
+                    <option value="" disabled selected>Select Background Stream</option>
+                    <option value="Science">Science</option>
+                    <option value="Commerce">Commerce</option>
+                    <option value="Arts">Arts</option>
+                    <option value="IT">IT / CS</option>
+                    <option value="Non-IT">Non-IT / Other</option>
+                </select>
+                <i class="fas fa-book-open"></i>
+            </div>
 
-        <button type="submit" id="submitBtn">Get Course PDF</button>
-    </form>
+            <div class="input-group">
+                <select name="course" required style="border-color: #6441A5; background: #f4efff;">
+                    <option value="" disabled selected>-- Select Interested Course --</option>
+                    <option value="Java">Java Programming</option>
+                    <option value="Python">Python Development</option>
+                    <option value="FullStack">Full Stack Web Dev</option>
+                </select>
+                <i class="fas fa-laptop-code" style="color: #6441A5;"></i>
+            </div>
 
-    <div id="statusMsg" class="message"></div>
-    
-    <div class="copyright">
-        &copy; 2026 Codeline.AI | All Rights Reserved
+            <button type="submit" id="submitBtn" class="submit-btn">
+                <span>Get Course PDF</span>
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+
+        <div id="statusMsg" class="message"></div>
     </div>
 </div>
 
-<script>
-    // 🔴 UPDATE YOUR NEW DEPLOYMENT URL HERE
-    // (Agar aapne pichla wala URL change nahi kiya hai to wahi chalega)
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyKip_pzGJIZoBCOyO1O-fpNuNAZWiPwYxNOmGr5Y0EJE4HEo9IL7qvzzDcZ_Jx_ixh/exec";
-
-    const form = document.getElementById('inquiryForm');
-    const btn = document.getElementById('submitBtn');
-    const msgBox = document.getElementById('statusMsg');
-
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        
-        btn.disabled = true;
-        btn.innerText = "Processing...";
-        msgBox.style.display = 'none';
-
-        const formData = new FormData(form);
-        const data = {};
-        formData.forEach((value, key) => data[key] = value);
-
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
-            btn.disabled = false;
-            btn.innerText = "Get Course PDF";
-            
-            if(result.status === "success") {
-                msgBox.innerHTML = "✅ <b>Success!</b> Opening WhatsApp...";
-                msgBox.className = "message success";
-                msgBox.style.display = "block";
-
-                // --- WHATSAPP LOGIC ---
-                const userWhatsapp = "91" + data.whatsapp; 
-                
-                const pdfLink = result.pdfUrl;
-                const courseName = result.courseName;
-                const address = result.address;
-                const mapLink = result.mapLink;
-                const userName = data.name;
-
-                const messageText = `Dear ${userName},
-
-Thank you for visiting *Codeline.AI*.
-
-Here are the details for the *${courseName}* program.
-
-📄 *Download Brochure:* ${pdfLink}
-
-📍 *Visit Institute:*
-${address}
-Google Map: ${mapLink}
-
-Regards, Team Codeline.AI`;
-
-                const encodedText = encodeURIComponent(messageText);
-                const waUrl = `https://wa.me/${userWhatsapp}?text=${encodedText}`;
-                
-                window.open(waUrl, '_blank');
-                form.reset();
-
-            } else {
-                throw new Error(result.message);
-            }
-        })
-        .catch(error => {
-            btn.disabled = false;
-            btn.innerText = "Get Course PDF";
-            msgBox.innerHTML = "❌ Error: " + error.message;
-            msgBox.className = "message error";
-            msgBox.style.display = "block";
-        });
-    });
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>

@@ -1,76 +1,75 @@
-// --- CONFIGURATION ---
-const COURSE_PDF_IDS = {
-  "Java": "1reW7KCAlN6i37Zlb9X2G0DSpmp3uUlPB",
-  "Python": "116T03zb7CB7VUSS4J006r_zXXZVtNlap",
-  "FullStack": "" 
-};
+// 🔴 YOUR EXISTING BACKEND URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGl9PumcuVdnN3lIPMS8JxYgAW69TdChvA9_NkELLxOxg-kAFpGux5w1O-yQf7tGp8/exec";
 
-// LOCATION DETAILS
-const INSTITUTE_ADDRESS = "Sangam Talkies Road, Plot No.452, Sakkardara Rd, Anand Nagar, Nandanvan, Nagpur, Maharashtra 440024";
-const GOOGLE_MAP_LINK = "https://maps.app.goo.gl/iQvaTW3rFWNKYbZ7A";
+const form = document.getElementById('inquiryForm');
+const btn = document.getElementById('submitBtn');
+const msgBox = document.getElementById('statusMsg');
 
-function doPost(e) {
-  const lock = LockService.getScriptLock();
-  lock.tryLock(10000);
-
-  try {
-    const data = JSON.parse(e.postData.contents);
+form.addEventListener('submit', e => {
+    e.preventDefault();
     
-    // --- NEW DATA FIELDS ---
-    const name = data.name;
-    const mobile = data.mobile;       // Primary Call Number
-    const whatsapp = data.whatsapp;   // WhatsApp Number
-    const email = data.email;
-    const city = data.city;
-    const qualification = data.qualification;
-    const stream = data.stream;
-    const passingYear = data.passingYear;
-    const course = data.course;
-    
-    // 1. Link Generate
-    const fileId = COURSE_PDF_IDS[course];
-    let fileUrl = fileId ? "https://drive.google.com/uc?export=download&id=" + fileId : "Link Not Available";
+    // Button Loading State
+    btn.disabled = true;
+    btn.innerHTML = '<span>Processing...</span> <i class="fas fa-spinner fa-spin"></i>';
+    msgBox.style.display = 'none';
 
-    // 2. Send Email to Admin/Institute (With Full Details)
-    let emailStatus = "FAILED";
-    try {
-      if(fileId) {
-        const file = DriveApp.getFileById(fileId);
-        MailApp.sendEmail({
-          to: email, // Student ko email
-          subject: `Codeline Course Details: ${course}`,
-          body: `Hi ${name},\n\nHere is the PDF for the ${course} course.\n\n📍 Visit Us:\n${INSTITUTE_ADDRESS}\n${GOOGLE_MAP_LINK}\n\nRegards,\nTeam Codeline`,
-          attachments: [file.getBlob()]
-        });
-        emailStatus = "SENT";
-      }
-    } catch (err) {
-      emailStatus = "ERROR: " + err.message;
-    }
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => data[key] = value);
 
-    // 3. Sheet Update (Saari details save hongi)
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Inquiries");
-    // Row Format: Date, Name, Mobile, WhatsApp, Email, City, Qual, Stream, Year, Course, Status
-    sheet.appendRow([
-      new Date(), name, mobile, whatsapp, email, city, qualification, stream, passingYear, course, "Redirect", emailStatus
-    ]);
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Reset Button
+        btn.disabled = false;
+        btn.innerHTML = '<span>Get Course PDF</span> <i class="fas fa-paper-plane"></i>';
+        
+        if(result.status === "success") {
+            // Show Success Message
+            msgBox.innerHTML = "✅ Success! Opening WhatsApp...";
+            msgBox.className = "message success";
+            msgBox.style.display = "block";
 
-    // 4. Return Response
-    return ContentService.createTextOutput(JSON.stringify({ 
-      status: "success", 
-      pdfUrl: fileUrl,      
-      courseName: course,
-      address: INSTITUTE_ADDRESS,
-      mapLink: GOOGLE_MAP_LINK
-    })).setMimeType(ContentService.MimeType.JSON);
+            // Whatsapp Logic
+            const userWhatsapp = "91" + data.whatsapp; 
+            const pdfLink = result.pdfUrl;
+            const courseName = result.courseName;
+            const address = result.address;
+            const mapLink = result.mapLink;
+            const userName = data.name;
 
-  } catch (e) {
-    return ContentService.createTextOutput(JSON.stringify({ 
-      status: "error", 
-      message: e.toString() 
-    })).setMimeType(ContentService.MimeType.JSON);
-    
-  } finally {
-    lock.releaseLock();
-  }
-}
+            const messageText = `Dear ${userName},
+
+Thank you for visiting *Codeline.AI*.
+
+Here are the details for the *${courseName}* program.
+
+📄 *Download Brochure:* ${pdfLink}
+
+📍 *Visit Institute:*
+${address}
+Google Map: ${mapLink}
+
+Regards, Team Codeline.AI`;
+
+            const encodedText = encodeURIComponent(messageText);
+            const waUrl = `https://wa.me/${userWhatsapp}?text=${encodedText}`;
+            
+            // Open WhatsApp & Reset Form
+            window.open(waUrl, '_blank');
+            form.reset();
+        } else {
+            throw new Error(result.message);
+        }
+    })
+    .catch(error => {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Get Course PDF</span> <i class="fas fa-paper-plane"></i>';
+        msgBox.innerHTML = "❌ Error: " + error.message;
+        msgBox.className = "message error";
+        msgBox.style.display = "block";
+    });
+});
